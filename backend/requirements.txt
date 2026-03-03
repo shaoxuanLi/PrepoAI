@@ -1,0 +1,19 @@
+# FastAPI & ASGI
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+python-multipart==0.0.18
+
+# Database
+sqlalchemy==2.0.36
+asyncpg==0.30.0
+psycopg2-binary==2.9.10        # Alembic sync driver
+alembic==1.14.0
+
+# Auth & Security
+python-jose[cryptography]==3.3.0
+bcrypt==4.2.1
+pydantic[email]==2.10.3
+pydantic-settings==2.7.0
+
+# Utilities
+python-dotenv==1.0.1
