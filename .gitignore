@@ -1,2 +1,19 @@
 .DS_Store
 **/.DS_Store
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/venv/
+
+# Node
+**/node_modules/
+
+# Build artifacts
+**/dist/
+**/build/
+
+# Environment files
+**/.env
+**/.env.*
