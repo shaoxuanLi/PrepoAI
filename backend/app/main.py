@@ -1,75 +1,27 @@
-import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1.router import api_router
-from app.config import settings
-from app.database import AsyncSessionLocal, engine
-from app.models import User  # noqa: F401  – triggers model registration
-from app.database import Base
-
-logger = logging.getLogger(__name__)
+from app.api.router import api_router
+from app.core.config import settings
+from backend_db.db import init_postgres_models
 
 
-# ─────────────────────── lifespan ────────────────────────────
-
+@asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup / shutdown tasks."""
-    # 1. Create tables (dev convenience; use Alembic in production)
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-    # 2. Seed initial super-admin
-    from app.services.user_service import UserService
-
-    async with AsyncSessionLocal() as db:
-        try:
-            admin = await UserService.ensure_superadmin(
-                db,
-                email=settings.FIRST_SUPERUSER_EMAIL,
-                username="admin",
-                full_name=settings.FIRST_SUPERUSER_NAME,
-                password=settings.FIRST_SUPERUSER_PASSWORD,
-            )
-            await db.commit()
-            logger.info("Super-admin ready: %s", admin.email)
-        except Exception as exc:  # pragma: no cover
-            await db.rollback()
-            logger.error("Failed to seed super-admin: %s", exc)
-
-    yield  # app is running
-
-    await engine.dispose()
+    await init_postgres_models()
+    yield
 
 
-# ─────────────────────── app factory ─────────────────────────
+app = FastAPI(title=settings.app_name, lifespan=lifespan)
 
-def create_app() -> FastAPI:
-    app = FastAPI(
-        title=settings.APP_NAME,
-        version=settings.APP_VERSION,
-        description="PropoAI — LLM 数据标注平台 API",
-        docs_url="/docs",
-        redoc_url="/redoc",
-        lifespan=lifespan,
-    )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.ALLOWED_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
-    app.include_router(api_router, prefix=settings.API_V1_PREFIX)
-
-    @app.get("/health", tags=["health"])
-    async def health_check():
-        return {"status": "ok", "version": settings.APP_VERSION}
-
-    return app
-
-
-app = create_app()
+app.include_router(api_router, prefix=settings.api_v1_prefix)
