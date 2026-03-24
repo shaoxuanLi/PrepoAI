@@ -3,11 +3,11 @@ version: "3.9"
 services:
   postgres:
     image: postgres:16
-    container_name: propoai-postgres
+    container_name: prepoai-postgres
     environment:
-      POSTGRES_USER: propoai
-      POSTGRES_PASSWORD: propoai
-      POSTGRES_DB: propoai
+      POSTGRES_USER: prepoai
+      POSTGRES_PASSWORD: prepoai
+      POSTGRES_DB: prepoai
     ports:
       - "5432:5432"
     volumes:
@@ -15,7 +15,7 @@ services:
 
   mongodb:
     image: mongo:7
-    container_name: propoai-mongodb
+    container_name: prepoai-mongodb
     ports:
       - "27017:27017"
     volumes:
@@ -23,13 +23,13 @@ services:
 
   redis:
     image: redis:7
-    container_name: propoai-redis
+    container_name: prepoai-redis
     ports:
       - "6379:6379"
 
   minio:
     image: minio/minio:latest
-    container_name: propoai-minio
+    container_name: prepoai-minio
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
@@ -42,7 +42,7 @@ services:
 
   etcd:
     image: quay.io/coreos/etcd:v3.5.14
-    container_name: propoai-etcd
+    container_name: prepoai-etcd
     command:
       - etcd
       - --advertise-client-urls=http://etcd:2379
@@ -53,7 +53,7 @@ services:
 
   milvus:
     image: milvusdb/milvus:v2.4.9
-    container_name: propoai-milvus
+    container_name: prepoai-milvus
     command: ["milvus", "run", "standalone"]
     environment:
       ETCD_ENDPOINTS: etcd:2379
@@ -68,11 +68,11 @@ services:
   backend:
     build:
       context: ./backend
-    container_name: propoai-backend
+    container_name: prepoai-backend
     environment:
-      POSTGRES_DSN: postgresql+asyncpg://propoai:propoai@postgres:5432/propoai
+      POSTGRES_DSN: postgresql+asyncpg://prepoai:prepoai@postgres:5432/prepoai
       MONGO_DSN: mongodb://mongodb:27017
-      MONGO_DB_NAME: propoai
+      MONGO_DB_NAME: prepoai
       REDIS_DSN: redis://redis:6379/0
       SECRET_KEY: replace-with-long-random-secret
     ports:
@@ -85,12 +85,12 @@ services:
   celery-worker:
     build:
       context: ./backend
-    container_name: propoai-celery
+    container_name: prepoai-celery
     command: celery -A celery_worker.app worker --loglevel=info
     environment:
-      POSTGRES_DSN: postgresql+asyncpg://propoai:propoai@postgres:5432/propoai
+      POSTGRES_DSN: postgresql+asyncpg://prepoai:prepoai@postgres:5432/prepoai
       MONGO_DSN: mongodb://mongodb:27017
-      MONGO_DB_NAME: propoai
+      MONGO_DB_NAME: prepoai
       REDIS_DSN: redis://redis:6379/0
       SECRET_KEY: replace-with-long-random-secret
     depends_on:
@@ -100,7 +100,7 @@ services:
   frontend:
     build:
       context: ./frontend
-    container_name: propoai-frontend
+    container_name: prepoai-frontend
     environment:
       VITE_API_BASE: http://localhost:8000/api/v1
     ports:

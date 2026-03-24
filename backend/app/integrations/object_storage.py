@@ -1,7 +1,7 @@
 class ObjectStorageGateway:
     """Placeholder object storage client for MinIO/S3."""
 
-    def __init__(self, endpoint: str = "http://minio:9000", bucket: str = "propoai"):
+    def __init__(self, endpoint: str = "http://minio:9000", bucket: str = "prepoai"):
         self.endpoint = endpoint
         self.bucket = bucket
 

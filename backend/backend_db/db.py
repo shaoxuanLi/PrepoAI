@@ -4,10 +4,10 @@ from collections.abc import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
-
+#初始化连接
 POSTGRES_DSN = os.getenv(
     "POSTGRES_DSN",
-    "postgresql+asyncpg://propoai:propoai@postgres:5432/propoai",
+    "postgresql+asyncpg://prepoai:prepoai@postgres:5432/prepoai",
 )
 
 

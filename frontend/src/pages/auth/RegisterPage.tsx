@@ -8,7 +8,7 @@ export function RegisterPage(): JSX.Element {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    localStorage.setItem("propoai_user", JSON.stringify({ username, email, role: "annotator" }));
+    localStorage.setItem("prepoai_user", JSON.stringify({ username, email, role: "annotator" }));
     navigate("/");
   };
 

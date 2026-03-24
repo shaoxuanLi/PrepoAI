@@ -10,7 +10,7 @@ export function LoginPage(): JSX.Element {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    localStorage.setItem("propoai_user", JSON.stringify({ username, role }));
+    localStorage.setItem("prepoai_user", JSON.stringify({ username, role }));
 
     if (role === "admin") {
       navigate("/admin/cost-monitor");
@@ -30,7 +30,7 @@ export function LoginPage(): JSX.Element {
   return (
     <div className="auth-page">
       <form className="auth-card" onSubmit={onSubmit}>
-        <h1>PropoAI</h1>
+        <h1>PrepoAI</h1>
         <p>Sign in to continue annotation workflow</p>
 
         <label>
