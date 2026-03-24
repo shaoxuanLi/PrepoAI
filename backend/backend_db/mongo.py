@@ -5,7 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 
 MONGO_DSN = os.getenv("MONGO_DSN", "mongodb://mongodb:27017")
-MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "propoai")
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "prepoai")
 
 _mongo_client: AsyncIOMotorClient | None = None
 

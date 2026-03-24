@@ -2,7 +2,7 @@ from celery import Celery
 
 from app.core.config import settings
 
-celery_app = Celery("propoai", broker=settings.redis_dsn, backend=settings.redis_dsn)
+celery_app = Celery("prepoai", broker=settings.redis_dsn, backend=settings.redis_dsn)
 
 
 @celery_app.task(name="etl.import_data")
