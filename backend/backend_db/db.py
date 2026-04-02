@@ -4,10 +4,17 @@ from collections.abc import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
+# 初始化 SQLAlchemy 异步引擎（POSTGRES_DSN）。
+# 提供 FastAPI 依赖 get_db_session()。
+
+
 #初始化连接
 POSTGRES_DSN = os.getenv(
-    "POSTGRES_DSN",
-    "postgresql+asyncpg://prepoai:prepoai@postgres:5432/prepoai",
+    "POSTGRES_DSN", 
+    #preproai:preproai - username:password
+    #postgres:5432 - host:port
+    #preproai - database name
+    "postgresql+asyncpg://preproai:preproai@postgres:5432/preproai", #default if above doesn't exist
 )
 
 

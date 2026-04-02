@@ -1,4 +1,4 @@
-# PrepoAI 初版框架
+# PreproAI 初版框架
 
 面向 Pacman 实验室多模态 LLM 训练（SFT + RLHF）的数据标注与管理系统初版。
 
@@ -12,7 +12,7 @@
 ## 1. 当前项目结构
 
 ```text
-PrepoAI/
+PreproAI/
 	backend/
 		app/
 			api/

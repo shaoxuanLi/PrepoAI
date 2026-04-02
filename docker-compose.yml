@@ -3,27 +3,19 @@ version: "3.9"
 services:
   postgres:
     image: postgres:16
-    container_name: prepoai-postgres
+    container_name: preproai-postgres
     environment:
-      POSTGRES_USER: prepoai
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-prepoai_secure_2026}
-      POSTGRES_DB: prepoai
+      POSTGRES_USER: preproai
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-preproai_secure_2026}
+      POSTGRES_DB: preproai
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    command:
-      - "postgres"
-      - "-c"
-      - "ssl=on"
-      - "-c"
-      - "ssl_cert_file=/var/lib/postgresql/server.crt"
-      - "-c"
-      - "ssl_key_file=/var/lib/postgresql/server.key"
 
   mongodb:
     image: mongo:7
-    container_name: prepoai-mongodb
+    container_name: preproai-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-admin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-mongo_secure_2026}
@@ -37,7 +29,7 @@ services:
 
   redis:
     image: redis:7
-    container_name: prepoai-redis
+    container_name: preproai-redis
     ports:
       - "127.0.0.1:6379:6379"
     command: redis-server --requirepass ${REDIS_PASSWORD:-redis_secure_2026} --bind 127.0.0.1
@@ -46,7 +38,7 @@ services:
 
   minio:
     image: minio/minio:latest
-    container_name: prepoai-minio
+    container_name: preproai-minio
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_secure_2026}
@@ -59,7 +51,7 @@ services:
 
   etcd:
     image: quay.io/coreos/etcd:v3.5.14
-    container_name: prepoai-etcd
+    container_name: preproai-etcd
     command:
       - etcd
       - --advertise-client-urls=http://etcd:2379
@@ -70,7 +62,7 @@ services:
 
   milvus:
     image: milvusdb/milvus:v2.4.9
-    container_name: prepoai-milvus
+    container_name: preproai-milvus
     command: ["milvus", "run", "standalone"]
     environment:
       ETCD_ENDPOINTS: etcd:2379
@@ -85,11 +77,11 @@ services:
   backend:
     build:
       context: ./backend
-    container_name: prepoai-backend
+    container_name: preproai-backend
     environment:
-      POSTGRES_DSN: postgresql+asyncpg://prepoai:${POSTGRES_PASSWORD:-prepoai_secure_2026}@postgres:5432/prepoai
+      POSTGRES_DSN: postgresql+asyncpg://preproai:${POSTGRES_PASSWORD:-preproai_secure_2026}@postgres:5432/preproai
       MONGO_DSN: mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD:-mongo_secure_2026}@mongodb:27017/?authSource=admin
-      MONGO_DB_NAME: prepoai
+      MONGO_DB_NAME: preproai
       REDIS_DSN: redis://:${REDIS_PASSWORD:-redis_secure_2026}@redis:6379/0
       SECRET_KEY: ${SECRET_KEY:-replace-with-long-random-secret}
     ports:
@@ -102,12 +94,12 @@ services:
   celery-worker:
     build:
       context: ./backend
-    container_name: prepoai-celery
+    container_name: preproai-celery
     command: celery -A celery_worker.app worker --loglevel=info
     environment:
-      POSTGRES_DSN: postgresql+asyncpg://prepoai:${POSTGRES_PASSWORD:-prepoai_secure_2026}@postgres:5432/prepoai
+      POSTGRES_DSN: postgresql+asyncpg://preproai:${POSTGRES_PASSWORD:-preproai_secure_2026}@postgres:5432/preproai
       MONGO_DSN: mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD:-mongo_secure_2026}@mongodb:27017/?authSource=admin
-      MONGO_DB_NAME: prepoai
+      MONGO_DB_NAME: preproai
       REDIS_DSN: redis://:${REDIS_PASSWORD:-redis_secure_2026}@redis:6379/0
       SECRET_KEY: ${SECRET_KEY:-replace-with-long-random-secret}
     depends_on:
@@ -117,7 +109,7 @@ services:
   frontend:
     build:
       context: ./frontend
-    container_name: prepoai-frontend
+    container_name: preproai-frontend
     environment:
       VITE_API_BASE: http://localhost:8000/api/v1
     ports:

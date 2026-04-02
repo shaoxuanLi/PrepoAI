@@ -1,4 +1,4 @@
-# 🔒 PropoAI 安全加固指南
+# 🔒 PreproAI 安全加固指南
 
 ## 已进行的安全加固 (2026-03-29)
 
@@ -105,7 +105,7 @@
 - [ ] **定期备份**
   ```bash
   # 备份PostgreSQL
-  docker-compose exec postgres pg_dump -U prepoai propoai > backup.sql
+  docker-compose exec postgres pg_dump -U preproai preproai > backup.sql
   
   # 备份MongoDB
   docker-compose exec mongodb mongodump --out=/backup
@@ -141,7 +141,7 @@ MINIO_ROOT_PASSWORD=PoIuYtReDwAsQzXcVbNmMqWsEdRfTgYhUjI=
 SECRET_KEY=LqFgHjKlPwErTyUiOpAsQzXcVbNmAsDfGhJkLzXcVbNm=
 
 # 数据库连接字符串（自动生成，匹配上面的密码）
-POSTGRES_DSN=postgresql+asyncpg://prepoai:aBc123DeFgHiJkLmNoPqRsTuVwXyZ1234=@postgres:5432/prepoai
+POSTGRES_DSN=postgresql+asyncpg://preproai:aBc123DeFgHiJkLmNoPqRsTuVwXyZ1234=@postgres:5432/preproai
 MONGO_DSN=mongodb://admin:xYz789AbCdEfGhIjKlMnOpQrStUvWxYz5678=@mongodb:27017/?authSource=admin
 REDIS_DSN=redis://:QwErTyUiOpAsDfGhJkLzXcVbNmMqWeRt1234=@redis:6379/0
 ```
@@ -159,9 +159,9 @@ REDIS_DSN=redis://:QwErTyUiOpAsDfGhJkLzXcVbNmMqWeRt1234=@redis:6379/0
 
 2. **检查日志**
    ```bash
-   docker logs prepoai-redis
-   docker logs prepoai-mongodb
-   docker logs prepoai-postgres
+   docker logs preproai-redis
+   docker logs preproai-mongodb
+   docker logs preproai-postgres
    ```
 
 3. **更改所有密码**

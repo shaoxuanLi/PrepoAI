@@ -47,6 +47,16 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
 
+    assigned_tasks: Mapped[list["TaskAssignment"]] = relationship(
+        foreign_keys="TaskAssignment.assignee_id", back_populates="assignee"
+    )
+    locked_tasks: Mapped[list["TaskAssignment"]] = relationship(
+        foreign_keys="TaskAssignment.locked_by_id", back_populates="locked_by"
+    )
+    quality_metrics: Mapped[list["QualityMetric"]] = relationship(
+        foreign_keys="QualityMetric.annotator_id", back_populates="annotator"
+    )
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -86,6 +96,15 @@ class TaskAssignment(Base):
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     project: Mapped[Project] = relationship(back_populates="tasks")
+    assignee: Mapped["User | None"] = relationship(
+        foreign_keys=[assignee_id], back_populates="assigned_tasks"
+    )
+    locked_by: Mapped["User | None"] = relationship(
+        foreign_keys=[locked_by_id], back_populates="locked_tasks"
+    )
+    quality_metrics: Mapped[list["QualityMetric"]] = relationship(
+        foreign_keys="QualityMetric.task_assignment_id", back_populates="task_assignment"
+    )
 
 
 class QualityMetric(Base):
@@ -100,3 +119,13 @@ class QualityMetric(Base):
     detail_json: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+
+    task_assignment: Mapped["TaskAssignment"] = relationship(
+        foreign_keys=[task_assignment_id], back_populates="quality_metrics"
+    )
+    annotator: Mapped["User"] = relationship(
+        foreign_keys=[annotator_id], back_populates="quality_metrics"
+    )
+    reviewer: Mapped["User | None"] = relationship(
+        foreign_keys=[reviewer_id]
+    )

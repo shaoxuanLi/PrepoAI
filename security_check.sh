@@ -1,10 +1,10 @@
 #!/bin/bash
-# PropoAI 安全配置检查脚本
+# PreproAI 安全配置检查脚本
 # 使用方法: ./security_check.sh
 
 set -e
 
-echo "🔒 PropoAI 安全配置检查"
+echo "🔒 PreproAI 安全配置检查"
 echo "========================"
 echo ""
 
@@ -43,7 +43,7 @@ echo "🔐 安全配置检查:"
 # 2. 检查 .env 中密码是否已更改
 if grep -q "POSTGRES_PASSWORD=" .env; then
     POSTGRES_PASS=$(grep "^POSTGRES_PASSWORD=" .env | cut -d'=' -f2)
-    if [ ${#POSTGRES_PASS} -ge 20 ] && [ "$POSTGRES_PASS" != "prepoai_secure_2026" ]; then
+    if [ ${#POSTGRES_PASS} -ge 20 ] && [ "$POSTGRES_PASS" != "preproai_secure_2026" ]; then
         echo -e "${GREEN}✅ PASS${NC}: Postgres密码已更改为强密码"
         pass_count=$((pass_count + 1))
     else
