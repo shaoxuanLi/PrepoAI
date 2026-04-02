@@ -1,4 +1,4 @@
-# 🚀 PropoAI 安全加固 — 快速参考指南
+# 🚀 PreproAI 安全加固 — 快速参考指南
 
 **日期**: 2026-03-29  
 **状态**: ✅ 所有安全检查通过
@@ -10,7 +10,7 @@
 学校IT发现你的账号(lsx24)在**2026-03-24 08:53**发起了一次Redis未授权访问攻击：
 - **漏洞**: Redis无密码认证，端口暴露到校园网
 - **风险**: 攻击者可读写数据、执行远程命令、获取服务器权限
-- **来源**: PropoAI项目中的docker-compose.yml配置不安全
+- **来源**: PreproAI项目中的docker-compose.yml配置不安全
 
 ---
 
@@ -60,7 +60,7 @@ REDIS_PASSWORD=weKdlluPwle4RJOn/JHZYSatRav6Xl1bPGoW3tMyW2I=
 ### 步骤1：重启容器（应用新的安全配置）
 
 ```bash
-cd "/Users/jadeons/Desktop/code/software engineering/PropoAI"
+cd "/Users/jadeons/Desktop/code/software engineering/PreproAI"
 
 # 停止所有容器
 docker-compose down
@@ -126,7 +126,7 @@ docker-compose logs -f frontend
 现在:
   Redis:    requirepass + 强密码 ✅
   MongoDB:  admin用户 + 强密码 + authSource ✅
-  PostgreSQL: prepoai用户 + 强密码 ✅
+  PostgreSQL: preproai用户 + 强密码 ✅
 ```
 
 ---
@@ -147,14 +147,14 @@ docker-compose logs -f frontend
 
 3. **监控异常访问**
    ```bash
-   docker logs prepoai-redis | grep "AUTH"
-   docker logs prepoai-mongodb | grep "authentication"
+   docker logs preproai-redis | grep "AUTH"
+   docker logs preproai-mongodb | grep "authentication"
    ```
 
 4. **备份重要数据**
    ```bash
    # PostgreSQL备份
-   docker-compose exec postgres pg_dump -U prepoai prepoai > backup.sql
+   docker-compose exec postgres pg_dump -U preproai preproai > backup.sql
    
    # MongoDB备份
    docker-compose exec mongodb mongodump --out=/backup

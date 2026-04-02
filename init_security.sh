@@ -1,5 +1,5 @@
 #!/bin/bash
-# 🔒 PropoAI 安全配置初始化脚本
+# 🔒 PreproAI 安全配置初始化脚本
 # 此脚本帮助您安全地设置所有密码
 
 set -e
@@ -7,7 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="$SCRIPT_DIR/.env"
 
-echo "🔒 PropoAI 安全密码配置"
+echo "🔒 PreproAI 安全密码配置"
 echo "========================"
 echo ""
 echo "⚠️  重要提示："
@@ -53,9 +53,9 @@ MINIO_ROOT_PASSWORD=$MINIO_ROOT_PASSWORD
 SECRET_KEY=$SECRET_KEY
 
 # 自动生成的数据库连接字符串
-POSTGRES_DSN=postgresql+asyncpg://prepoai:$POSTGRES_PASSWORD@postgres:5432/prepoai
+POSTGRES_DSN=postgresql+asyncpg://preproai:$POSTGRES_PASSWORD@postgres:5432/preproai
 MONGO_DSN=mongodb://admin:$MONGO_ROOT_PASSWORD@mongodb:27017/?authSource=admin
-MONGO_DB_NAME=propoai
+MONGO_DB_NAME=preproai
 REDIS_DSN=redis://:$REDIS_PASSWORD@redis:6379/0
 VITE_API_BASE=http://localhost:8000/api/v1
 EOF
